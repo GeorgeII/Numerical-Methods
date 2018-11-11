@@ -1,4 +1,6 @@
-import static java.lang.Math.*;
+import static java.lang.Math.exp;
+import static java.lang.Math.sin;
+import static java.lang.Math.cos;
 
 public class Main {
 
@@ -80,6 +82,8 @@ public class Main {
     }
 
     public static void main(String[] args) {
+
+        
 
         double t = a;
 
