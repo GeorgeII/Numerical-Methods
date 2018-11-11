@@ -1,6 +1,6 @@
 # IntelliJ files
 Adams Method/.idea
-*/*.iml
+*.iml
 
 # compiled files
 */target
