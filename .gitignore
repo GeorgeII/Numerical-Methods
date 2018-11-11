@@ -1,5 +1,6 @@
 # IntelliJ files
-*.idea
+/.idea
+*.iml
 
 # compiled files
 /target
