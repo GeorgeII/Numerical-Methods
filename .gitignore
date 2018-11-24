@@ -4,3 +4,4 @@
 
 # compiled files
 */target
+*/__pycache__
