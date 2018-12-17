@@ -6,17 +6,8 @@ from tabulate import tabulate
 def main():
     a = 0
     b = 2 * np.pi
-    # n = 10
-    # h = (b - a) / (n + 1)
-    h = 0.01
-    n = int((b - a) / h + 1)
-
-    # Gaussian elimination to find c1 and c2
-    x = a
-    matrix = np.array(
-        [[np.cos(x) * (1 + np.pi), np.sin(x) * (1 - np.pi)], [np.sin(x) * (np.pi + 1), np.cos(x) * (np.pi - 1)]])
-    sol_vector = np.array([np.cos(x) * (np.pi + 1), np.sin(x) * (np.pi + 1)])
-    constants = np.linalg.solve(matrix, sol_vector)
+    n = 10
+    h = (b - a) / (n - 1)
 
     # trapezoidal rule
     x = np.linspace(a, b, n)
@@ -26,23 +17,19 @@ def main():
     for i in range(n):
         matrix[i] = h * np.cos(x[i] + t)
 
-    matrix[:, 0] /= 0.5
-    matrix[:, n-1] /= 0.5
+    matrix[:, 0] /= 2
+    matrix[:, n-1] /= 2
 
     for i in range(n):
         matrix[i][i] += 1
 
     y = np.linalg.solve(matrix, sol_vector)
-    exact_solution = u(x, constants)
+    exact_solution = np.cos(x)
     print_tables(x, y, exact_solution)
     print("n = ", n)
     print("h = ", h)
 
-
-def u(x, constants):
-    return constants[0] * np.cos(x) + constants[1] * np.sin(x)
-
-
+    
 def print_tables(x, y, y_exact_solution):
     table1 = pandas.DataFrame({"x": x, "Precise y": y_exact_solution, "y": y, "Error": abs(y - y_exact_solution)})
     table1 = table1.round(7)
