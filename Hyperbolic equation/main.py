@@ -6,8 +6,8 @@ from mpl_toolkits.mplot3d import Axes3D
 
 def main():
     sigma = 0.5
-    x_number = 21
-    k = 2
+    x_number = 31
+    k = 3
 
     # boundaries
     t_min, t_max = 0, 0.2
@@ -34,7 +34,7 @@ def main():
     initial_values_derivative = k * x * np.sin(k * np.pi * x / x_max)
     y[:, 0] = initial_values
     y[:, 1] = y[:, 0] + tau * initial_values_derivative + \
-              0.5 * tau**2 * (second_order_derivative(y[:, 1], h) + f)
+              0.5 * tau**2 * (second_order_derivative(y[:, 0], h) + f)
 
     # boundary conditions
     y[0, :] = 0
@@ -42,29 +42,22 @@ def main():
     np.set_printoptions(precision=2)
     print(y)
 
-    # IN THE TEXTBOOK GAMMA IS EQUAL: tau / h while other sources give it as: tau**2 / h**2
-    gamma = 1
     sigma_vector = np.full(x_number - 3, sigma)
     diagonal = np.append(sigma_vector, sigma)
 
-    y_difference_prev = second_order_derivative(y[:, 0], h)
     for j in range(2, t_number):
         F = np.zeros(len(diagonal))
         y_difference = second_order_derivative(y[:, j-1], h)
 
         for i in range(1, x_number - 1):
-            F[i-1] = 2 * y[i][j-1] - y[i][j-2] + tau**2 * (1 - 2 * sigma) * y_difference[i-1] + \
-                     sigma * tau**2 * y_difference_prev[i-1] + tau**2 * f[i-1]
+            F[i-1] = 2 * y[i][j-1] - y[i][j-2]
 
-        y_difference_prev = y_difference
-
-        y[1:-1, j] = tridiagonal_matrix_algorithm(sigma_vector * gamma ** 2,
-                                                  -1*(1 + 2 * diagonal * gamma**2),
-                                                  sigma_vector * gamma ** 2, -F)
+        y[1:-1, j] = tridiagonal_matrix_algorithm(sigma_vector ** 2,
+                                                  -1*(1 + 2 * diagonal **2),
+                                                  sigma_vector ** 2, -F)
 
     print('Result:\n{}'.format(y))
     plot_matrix(x, t, y)
-    print(1-h**2/tau**2)
 
 
 def second_order_derivative(y, h):
