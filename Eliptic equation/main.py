@@ -5,7 +5,7 @@ from mpl_toolkits.mplot3d import Axes3D
 
 
 def main():
-    x_number, t_number = 4, 4
+    x_number, t_number = 5, 4
 
     # boundaries
     t_min, t_max = 0, 1
@@ -50,7 +50,7 @@ def main():
     A[i==j-x_number+1] = b
     #A[i==j-1] = a
     for i in range(matrix_size-1):
-        if (i+1) % (t_number) == 0:
+        if (i+1) % (x_number-1) == 0:
             continue
         else:
             A[i][i+1] = a
