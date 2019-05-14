@@ -63,17 +63,9 @@ def main():
             if i == x_number - 3:
                 F[i][j] -= a * y[-1][j+1]
             if j == 0:
-                # this condition might be harmful
-                if i == 0 or i == x_number - 3:
-                    F[i][j] += b * y[i + 1][0]
-                else:
-                    F[i][j] -= b * y[i+1][0]
+                F[i][j] -= b * y[i+1][0]
             if j == t_number - 3:
-                # this condition might be harmful
-                if i == 0 or i == x_number - 3:
-                    F[i][j] += b * y[i + 1][-1]
-                else:
-                    F[i][j] -= b * y[i+1][-1]
+                F[i][j] -= b * y[i+1][-1]
         F[i][j] += f[i][j]
     F = F.flatten()
 

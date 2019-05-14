@@ -34,7 +34,7 @@ def main():
     np.set_printoptions(precision=2)
     print(y)
 
-    gamma = tau / h ** 2
+    gamma = 1
     sigma_vector = np.full(x_number - 3, sigma)
     diagonal = np.append(sigma_vector, sigma)
 
@@ -42,19 +42,11 @@ def main():
         F = np.zeros(len(diagonal))
         phi = np.zeros(x_number - 2)
 
-        '''
-        this can be used instead of loop below
         for i in range(1, x_number-1):
             F[i-1] = y[i][j-1] + tau * phi[i-1]
 
         F[0] += sigma * y[0][j]
         F[-1] += sigma * y[-1][j]
-        '''
-
-        # this loop is controversial and can be replaced with comment section above
-        for i in range(1, x_number-1):
-            F[i-1] = (1 - sigma) * gamma * y[i+1][j-1] + (1 - sigma) * gamma * y[i-1][j-1] +\
-                     (1 - 2 * gamma * (1 - sigma)) * y[i][j-1] + tau * phi[i-1]
 
         y[1:-1, j] = tridiagonal_matrix_algorithm(gamma * sigma_vector, -1*(1 + 2 * gamma * diagonal),
                                                            gamma * sigma_vector, -F)
